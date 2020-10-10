@@ -1,0 +1,98 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <title>Blogs</title>
+</head>
+
+<body class='container'>
+
+
+    <a href="/blogs"> go to blogs</a>
+    <div class="container">
+        <h3>{{blog.title}}</h3>
+        <p style="white-space:pre-wrap">{{blog.content}}writeen by : <a
+                href='{% url "user_profile" blog.aurthor.id %}'>{{blog.aurthor.first_name}}{{blog.aurthor.last_name}}</a> on {{blog.time}} </p>
+        <br>
+        <h5>
+            add a comment
+        </h5>
+
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <input type="hidden" value="{{blogs.pk}}" name="post">
+            <div style='display:none;'>{{form.post}}</div>
+            <hr>
+
+            <div style='display:none;'>{{form.name}}</div>
+
+            <hr>
+            {{form.content}}
+
+            <br>
+            <button value="submit" type='submit' class="btn btn-primary btn-block">Comment </button>
+
+        </form>
+        {% if commenty %}
+        <h3>
+            all comments of {{blog.title}}
+        </h3>
+        <br>
+        {% for comment in commenty %}
+        {%if comment.name %}
+        <h4><a href='{% url "user_profile" comment.name.id %}'>{{ comment.name.first_name }}
+                {{ comment.name.last_name }}</h4> </a>
+        Likes Count: {{comment.like.all | length}} <br>
+        {%if request.user in comment.like.all %}
+        <a href="#">Liked Comment</a>
+        {%else %}
+        <a href="{{blog.pk}}/like/{{comment.pk}}">Like Comment</a>
+        {%endif %}
+            
+        {%else %}
+        <h4>Guest </h4>
+        {%endif %}
+        {{ comment.content }}
+        on
+        {{ comment.date_added }}
+        <hr>
+        {% endfor %}
+        {% else %}
+        <h1>
+            No Comments till now
+        </h1>
+        {% endif %}
+        <!-- <div id="disqus_thread"></div>
+        <script>
+
+            /**
+            *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+            *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+            /*
+            var disqus_config = function () {
+            this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+            this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+            };
+            */
+            (function () { // DON'T EDIT BELOW THIS LINE
+                var d = document, s = d.createElement('script');
+                s.src = 'https://mysite-oaaykdr6vw.disqus.com/embed.js';
+                s.setAttribute('data-timestamp', +new Date());
+                (d.head || d.body).appendChild(s);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by
+                Disqus.</a></noscript> -->
+    </div>
+
+    </form>
+    </div>
+
+</body>
+
+</html>

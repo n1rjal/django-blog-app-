@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <title>Document</title>
+</head>
+
+<body>
+    <a href="{% url 'logut'%}">logout</a>
+    <div class="container">
+        <h1>
+            <a href="{% url 'user_profile' request.user.id %}">
+                {{user.first_name}}
+            </a>
+            <br>
+            Create a new Blog
+            <hr>
+        </h1>
+ 
+        <form method="POST">
+            {% csrf_token %}
+            <br>
+            <div class="form-group">
+                <label for="exampleFormControlInput1">Title</label>
+                <input type="text" class="form-control" name="title" id="exampleFormControlInput1">
+            </div>
+            <br>
+            <div class="form-group">
+                <label for="exampleFormControlTextarea1">Content</label>
+                <textarea class="form-control" name='content' id="exampleFormControlTextarea1" rows="9"></textarea>
+            </div>
+            <br>
+            <br>
+            <button type="submit" value="submit" class="btn btn-dark">submit</button>
+        </form>
+        <a href="/blogs">
+            show blogs
+        </a>
+    </div>
+
+</body>
+
+</html>
