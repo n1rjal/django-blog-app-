@@ -12,7 +12,12 @@
 <body>
     <a href="{% url 'logut'%}">logout</a>
     <div class="container">
+        <form method="GET" action="/serach">
+        <input type= 'text' name = 'query' id = 'search'>
+        <input type="submit" value="serach" class="btn btn-dark">
+    </form>
         <h1>
+            
             <a href="{% url 'user_profile' request.user.id %}">
                 {{user.first_name}}
             </a>

@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, HttpResponse, get_object_or_404
+from django.shortcuts import render, redirect, HttpResponse
 from .models import Blog, Comment
 from django.views.generic import ListView
 from datetime import datetime
@@ -87,17 +87,23 @@ def user_profile(request, pk):
     context = {'posts': posts, 'user': user_main, 'show_user': author}
     return render(request, 'user_profile.html', context)
 
-
-# def user_profile_id(request , pk):
-#     profile= User.objects.get(pk=pk)
-
-#     posts = profile.blog_set.all().order_by('-time')
-
-#     context={'posts':posts,}
-#     return render(request, 'user_profile.html', context)
-
 def like_comment(request, blog_id, comment_id):
     comment = Comment.objects.filter(post__id=blog_id).filter(pk=comment_id).first()
     comment.like.add(request.user)
     comment.save()
     return redirect('view_blog', pk_second=blog_id)
+def serach(request):
+    if request.user.is_anonymous:
+        return redirect("members/login")
+    else:
+        query = request.GET.get('query')
+        blog = Blog.objects.filter(title__icontains = query).order_by('-time')
+        blogs = Blog.objects.all()
+        for i in blogs:
+            if query.lower() in i.title.lower():
+                fail = ' All Serach Results '
+                break
+            else:
+                fail = ' No Search Results '
+        context = {'blog' : blog , 'query' : query , 'fail' : fail}
+    return render(request , 'serach.html' , context)
