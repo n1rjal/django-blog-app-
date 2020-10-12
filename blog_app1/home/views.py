@@ -8,6 +8,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.db.models import Count
 
+
 def index(requests):
     if requests.user.is_anonymous:
         return redirect("members/login")
@@ -58,7 +59,8 @@ def view_blog(request, pk_second):
     else:
         blog = Blog.objects.get(pk=pk_second)
         author = request.user
-        commenty = blog.comments.annotate(count=Count('like')).order_by('-count')
+        commenty = blog.comments.annotate(
+            count=Count('like')).order_by('-count')
         form = Comments(initial={'post': blog})
         if request.method == 'POST':
 
@@ -97,7 +99,25 @@ def user_profile(request, pk):
 #     return render(request, 'user_profile.html', context)
 
 def like_comment(request, blog_id, comment_id):
-    comment = Comment.objects.filter(post__id=blog_id).filter(pk=comment_id).first()
+    comment = Comment.objects.filter(
+        post__id=blog_id).filter(pk=comment_id).first()
     comment.like.add(request.user)
     comment.save()
     return redirect('view_blog', pk_second=blog_id)
+
+
+def serach(request):
+    if request.user.is_anonymous:
+        return redirect("members/login")
+    else:
+        query = request.GET.get('query')
+        blog = Blog.objects.filter(title__icontains=query).order_by('-time')
+        blogs = Blog.objects.all()
+        for i in blogs:
+            if query.lower() in i.title.lower():
+                fail = ' All Serach Results '
+                break
+            else:
+                fail = ' No Search Results '
+        context = {'blog': blog, 'query': query, 'fail': fail}
+    return render(request, 'serach.html', context)
