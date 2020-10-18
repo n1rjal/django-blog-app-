@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, HttpResponse, get_object_or_404
-from .models import Blog, Comment
+from .models import Blog, Comment , Profile
 from django.views.generic import ListView
 from datetime import datetime
 from .forms import Comments
@@ -58,7 +58,7 @@ def view_blog(request, pk_second):
         return redirect("login")
     else:
         blog = Blog.objects.get(pk=pk_second)
-        author = request.user
+        users = User.objects.all
         commenty = blog.comments.annotate(
             count=Count('like')).order_by('-count')
         form = Comments(initial={'post': blog})
@@ -73,30 +73,22 @@ def view_blog(request, pk_second):
                     comment.save()
 
         context = {'blog': blog, 'commenty': commenty,
-                   'form': form, 'aurthor': author}
+                   'form': form}
 
-        return render(request, 'view_blog.html', context)
+        return render(request, 'view_blog.html', context , )
 
 
 def user_profile(request, pk):
     author = User.objects.get(pk=pk)
-
+    profile = Profile.objects.all
     if request.user.is_anonymous:
         return redirect("login")
     else:
         posts = author.blog_set.all().order_by('-time')
         user_main = request.user
-    context = {'posts': posts, 'user': user_main, 'show_user': author}
+    context = {'posts': posts, 'user': user_main, 'show_user': author , 'profile' : profile}
     return render(request, 'user_profile.html', context)
 
-
-# def user_profile_id(request , pk):
-#     profile= User.objects.get(pk=pk)
-
-#     posts = profile.blog_set.all().order_by('-time')
-
-#     context={'posts':posts,}
-#     return render(request, 'user_profile.html', context)
 
 def like_comment(request, blog_id, comment_id):
     comment = Comment.objects.filter(

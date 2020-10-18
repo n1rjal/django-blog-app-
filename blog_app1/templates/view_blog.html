@@ -17,8 +17,9 @@
         <p style="white-space:pre-wrap">{{blog.content}}writeen by : <a
                 href='{% url "user_profile" blog.aurthor.id %}'>{{blog.aurthor.first_name}}{{blog.aurthor.last_name}}</a> on {{blog.time}} </p>
         <br>
+                <!-- You aren't even using the author variable ::P  haha i am not lol-->
         <h5>
-            add a comment
+            add a comment {{aurthor}} | directly from template:: {{user}}
         </h5>
 
 
@@ -45,7 +46,8 @@
         <br>
         {% for comment in commenty %}
         {%if comment.name %}
-        <h4><a href='{% url "user_profile" comment.name.id %}'>{{ comment.name.first_name }}
+        <h4><a href='{% url "user_profile" comment.name.id %}'>
+           {{comment.name.first_name }}
                 {{ comment.name.last_name }}</h4> </a>
         Likes Count: {{comment.like.all | length}} <br>
         {%if request.user in comment.like.all %}

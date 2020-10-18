@@ -17,6 +17,10 @@ from django.contrib import admin
 from django.urls import path , include
 from home import urls
 from members import urls
+from django.conf import settings
+from django.conf.urls.static import static
+# Static function makes any media url work like static file path.
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('' , include('home.urls')),
@@ -24,3 +28,5 @@ urlpatterns = [
     path('oauth/', include('social_django.urls', namespace='social')),
 
 ]
+# Wait I forgot the pattern for media!!
+# and django.conf ko settings just gets values from your settings.py
