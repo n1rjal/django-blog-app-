@@ -4,10 +4,6 @@ from django.contrib.auth.models import User
 
 class Blog(models.Model):
     aurthor = models.ForeignKey(User , null=True , on_delete=models.CASCADE)
-    # Brother if you are reading this then :
-    '''
-    User Profile as a FK for author and keep Blog model at the last !! But this shall still work!!
-    '''
     title = models.CharField(max_length=20)
     content = models.TextField()
     time = models.DateTimeField(auto_now_add=True)
@@ -32,9 +28,3 @@ class Profile(models.Model):
 
     def __str__(self):
         return f"{self.user.first_name} {self.user.last_name} | {self.user}"
-        # So I got confused???
-#this is the path see in hme/static 
-# what's the error here!!!??
-#i am saying that image is not being rendered 
-# Image stuff is now solved bro!!! I am just trying to implement best practices!!
-#lets see 

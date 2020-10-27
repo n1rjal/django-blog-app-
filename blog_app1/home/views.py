@@ -86,10 +86,14 @@ def user_profile(request, pk):
     else:
         posts = author.blog_set.all().order_by('-time')
         user_main = request.user
+        if request.method == 'POST':
+            image = request.FILES.get('img')
+            img = Profile(profile_pic = image , user= user_main)
+            img.save()
+        
     context = {'posts': posts, 'user': user_main, 'show_user': author , 'profile' : profile}
     return render(request, 'user_profile.html', context)
-
-
+    
 def like_comment(request, blog_id, comment_id):
     comment = Comment.objects.filter(
         post__id=blog_id).filter(pk=comment_id).first()

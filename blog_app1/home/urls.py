@@ -12,4 +12,3 @@ urlpatterns = [
     path('serach', views.serach , name='serach')
     # path('profile/<int:pk>', views.user_profile_id, name='user_profile_id')
 ]
-

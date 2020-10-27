@@ -17,7 +17,18 @@
             Home
         </a>
         <br>
-        {% if show_user.profile.profile_pic %}
+        {% if  request.user.username == show_user.username %}
+            <form method = 'POST' enctype="multipart/form-data">
+            {% csrf_token %}
+            upload your profile
+            <br>
+            <input type="file" id="img" name="img" accept="image/*">
+            <br>
+            <button class = 'btn btn-dark'>uplaod</button>
+            </form>
+        {% endif %}
+        <br>
+         {% if show_user.profile.profile_pic %}
         <img src="{{show_user.profile.profile_pic.url}}" height="200" width="200">
         {% else %}
         <img src="{% static '/images/profile/download (2).png' %}">
@@ -38,6 +49,7 @@
         </h1>
 
         {%endfor%}
+        
 
     </div>
 </body>
