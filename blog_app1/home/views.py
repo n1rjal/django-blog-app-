@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, HttpResponse, get_object_or_404
-from .models import Blog, Comment , Profile
+from .models import Blog, Comment, Profile
 from django.views.generic import ListView
 from datetime import datetime
 from .forms import Comments
@@ -75,7 +75,7 @@ def view_blog(request, pk_second):
         context = {'blog': blog, 'commenty': commenty,
                    'form': form}
 
-        return render(request, 'view_blog.html', context , )
+        return render(request, 'view_blog.html', context, )
 
 
 def user_profile(request, pk):
@@ -88,12 +88,22 @@ def user_profile(request, pk):
         user_main = request.user
         if request.method == 'POST':
             image = request.FILES.get('img')
-            img = Profile(profile_pic = image , user= user_main)
+
+            img, _ = Profile.objects.get_or_create(user=user_main)
+            img.profile_pic = image
             img.save()
-        
-    context = {'posts': posts, 'user': user_main, 'show_user': author , 'profile' : profile}
+        if request.method == 'GET':
+            print(request.GET)
+            if request.GET.get('delete') and author == request.user:
+                delte_pic = author.profile
+                delte_pic.profile_pic = None
+                delte_pic.save()
+
+    context = {'posts': posts, 'user': user_main,
+               'show_user': author, 'profile': profile}
     return render(request, 'user_profile.html', context)
-    
+
+
 def like_comment(request, blog_id, comment_id):
     comment = Comment.objects.filter(
         post__id=blog_id).filter(pk=comment_id).first()
