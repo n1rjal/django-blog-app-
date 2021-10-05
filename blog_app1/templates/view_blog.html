@@ -14,8 +14,14 @@
     <a href="/blogs"> go to blogs</a>
     <div class="container">
         <h3>{{blog.title}}</h3>
-        <p style="white-space:pre-wrap">{{blog.content}}writeen by : <a
-                href='{% url "user_profile" blog.aurthor.id %}'>{{blog.aurthor.first_name}}{{blog.aurthor.last_name}}</a> on {{blog.time}} </p>
+        <small class="text-muted">
+            <a href='{% url "user_profile" blog.aurthor.id %}'>
+                {{blog.aurthor.username}}
+            </a>
+            <br />
+            {{blog.time}}
+        </small>
+        <p style="white-space:pre-wrap;text-indent: 1cm;">{{blog.content}} </p>
         <br>
                 <!-- You aren't even using the author variable ::P  haha i am not lol-->
         <h5>

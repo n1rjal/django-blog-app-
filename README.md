@@ -1,4 +1,5 @@
 # django-blog-app-
+
 <h1>:snowflake:Django Blog Web App:snowflake:</h1> 
 <h3>**About**</h3><br>
 > A Blog app using django where a user  can logged in, comment , like comments and many more.
@@ -25,4 +26,5 @@ Next, set up a virtual environment and activate it:
 The setup is complete. Run a local server with
 
 <code>python3 manage.py runserver --settings=website.settings.local</code>
+
 <h4>That's it !! Happy coding..</h4>
