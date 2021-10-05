@@ -35,22 +35,6 @@ class Show_bLogs(LoginRequiredMixin, ListView):
     template_name = 'blogs.html'
     ordering = ['-time']
 
-    # def get_context_data(self, **kwargs):
-    #     context = super(Show_bLogs, self).get_context_data(**kwargs)
-    #     context['comments'] = Comment.objects.all()
-    #     context['form'] = Comments()
-    #     return context
-
-    # def post(self, request, *args, **kwargs):
-    #     form = Comments(request.POST)
-    #     print(request.POST)
-    #     if form.is_valid():
-    #         comment = form.save(commit=False)
-    #         comment.post_id = request.POST.get("post")
-    #         comment.save()
-    #         return redirect('/blogs')
-    #     else:
-    #         return HttpResponse("Db issue here.")
 
 
 def view_blog(request, pk_second):
@@ -58,7 +42,7 @@ def view_blog(request, pk_second):
         return redirect("login")
     else:
         blog = Blog.objects.get(pk=pk_second)
-        users = User.objects.all
+        users = User.objects.all()
         commenty = blog.comments.annotate(
             count=Count('like')).order_by('-count')
         form = Comments(initial={'post': blog})
@@ -68,14 +52,13 @@ def view_blog(request, pk_second):
             if form.is_valid():
                 comment = form.save()
                 if not request.user.is_anonymous:
-
                     comment.name = request.user
                     comment.save()
 
         context = {'blog': blog, 'commenty': commenty,
                    'form': form}
 
-        return render(request, 'view_blog.html', context, )
+        return render(request, 'view_blog.html', context )
 
 
 def user_profile(request, pk):
