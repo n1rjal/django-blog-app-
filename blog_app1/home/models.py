@@ -13,7 +13,7 @@ class Blog(models.Model):
 
 
 class Comment(models.Model):
-    post = models.ForeignKey(Blog , null=True ,blank=True, related_name='comments', on_delete=models.CASCADE)
+    post = models.ForeignKey(Blog, null=True ,blank=True, related_name='comments', on_delete=models.CASCADE)
     name = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     content = models.TextField(null=True,blank=True)
     date_added = models.DateTimeField(auto_now_add=True)

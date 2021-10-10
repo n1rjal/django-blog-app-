@@ -11,5 +11,5 @@ urlpatterns = [
          views.like_comment, name='like_comment'),
     path('profile/<int:pk>', views.user_profile, name='user_profile'),
     path('serach', views.serach, name='serach'),
-    # path('profile/<int:pk>', views.user_profile_id, name='user_profile_id')
+    
 ]

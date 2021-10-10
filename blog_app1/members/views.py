@@ -8,7 +8,6 @@ from django.contrib.auth import logout, authenticate, login
 def register(reqests):
     if reqests.method == 'POST':
         first_name = reqests.POST.get('first_name')
-        print(type(first_name))
         last_name = reqests.POST.get('last_name')
         username = reqests.POST.get('user_name')
         email = reqests.POST.get('eamil')
@@ -28,15 +27,13 @@ def register(reqests):
                 user.save()
             else:
                 return render(reqests , 'registration/register.html' , {'fail' : 'password miss match'})
-            print('it worked')
             return redirect('login')
     return render(reqests , 'registration/register.html')
 def loginUser(request):
     if request.method=="POST":
         username = request.POST.get('user_name')
         password = request.POST.get('password')
-        print(username, password)
-
+        
         # check if user has entered correct credentials
         user = authenticate(username=username, password=password)
 
